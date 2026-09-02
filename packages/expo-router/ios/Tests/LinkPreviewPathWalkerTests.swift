@@ -24,9 +24,12 @@ struct LinkPreviewPathWalkerTests {
   @Test
   func `finds a preloaded screen through nested stacks without changing tabs`() throws {
     let target = screen(id: "details", activityState: 0)
-    let innerStack = stack(ids: ["home", "details"], children: [
-      screen(id: "home"), target,
-    ])
+    let innerStack = stack(
+      ids: ["home", "details"],
+      children: [
+        screen(id: "home"), target,
+      ]
+    )
     let rootScreen = screen(id: "root", children: [innerStack])
     let rootStack = stack(ids: ["root"], children: [rootScreen])
     let responder = attachResponder(to: rootStack)
@@ -45,10 +48,13 @@ struct LinkPreviewPathWalkerTests {
   func `selects an unselected tab`() throws {
     let target = screen(id: "details", activityState: 0)
     let targetStack = stack(ids: ["details"], children: [target])
-    let tabs = tabHost(selectedIndex: 0, tabs: [
-      tab(name: "home"),
-      tab(name: "settings", children: [targetStack]),
-    ])
+    let tabs = tabHost(
+      selectedIndex: 0,
+      tabs: [
+        tab(name: "home"),
+        tab(name: "settings", children: [targetStack]),
+      ]
+    )
     let rootScreen = screen(id: "root", children: [tabs.host])
     let rootStack = stack(ids: ["root"], children: [rootScreen])
 
@@ -68,10 +74,13 @@ struct LinkPreviewPathWalkerTests {
   func `does not change an already selected tab`() {
     let target = screen(id: "details", activityState: 0)
     let targetStack = stack(ids: ["details"], children: [target])
-    let tabs = tabHost(selectedIndex: 1, tabs: [
-      tab(name: "home"),
-      tab(name: "settings", children: [targetStack]),
-    ])
+    let tabs = tabHost(
+      selectedIndex: 1,
+      tabs: [
+        tab(name: "home"),
+        tab(name: "settings", children: [targetStack]),
+      ]
+    )
     let rootScreen = screen(id: "root", children: [tabs.host])
     let rootStack = stack(ids: ["root"], children: [rootScreen])
 
@@ -86,14 +95,20 @@ struct LinkPreviewPathWalkerTests {
 
   @Test
   func `orders nested tab changes outer first`() throws {
-    let innerTabs = tabHost(selectedIndex: 0, tabs: [
-      tab(name: "feed"),
-      tab(name: "profile"),
-    ])
-    let outerTabs = tabHost(selectedIndex: 0, tabs: [
-      tab(name: "home"),
-      tab(name: "account", children: [innerTabs.host]),
-    ])
+    let innerTabs = tabHost(
+      selectedIndex: 0,
+      tabs: [
+        tab(name: "feed"),
+        tab(name: "profile"),
+      ]
+    )
+    let outerTabs = tabHost(
+      selectedIndex: 0,
+      tabs: [
+        tab(name: "home"),
+        tab(name: "account", children: [innerTabs.host]),
+      ]
+    )
     let rootScreen = screen(id: "root", children: [outerTabs.host])
     let rootStack = stack(ids: ["root"], children: [rootScreen])
 

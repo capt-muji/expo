@@ -69,11 +69,14 @@ final class LinkPreviewPathWalker {
     commands: inout [TabChangeCommand]
   ) -> (screenView: UIView?, stackView: UIView?)? {
     if let screenIds = screenIds(from: view), !screenIds.isEmpty {
-      guard let routeIndex = path.indices.dropFirst(cursor).first(where: {
-        screenIds.contains(path[$0].key)
-      }), let screenView = children(of: view).first(where: {
-        screenId(from: $0) == path[routeIndex].key
-      }) else {
+      guard
+        let routeIndex = path.indices.dropFirst(cursor).first(where: {
+          screenIds.contains(path[$0].key)
+        }),
+        let screenView = children(of: view).first(where: {
+          screenId(from: $0) == path[routeIndex].key
+        })
+      else {
         return nil
       }
 
@@ -95,9 +98,11 @@ final class LinkPreviewPathWalker {
     if let tabBarController = tabBarController(from: view) {
       let tabViews = tabBarController.viewControllers?.compactMap { $0.view } ?? []
       for routeIndex in path.indices.dropFirst(cursor) {
-        guard let tabIndex = tabViews.firstIndex(where: {
-          RNScreensTabCompat.screenKey(from: $0) == path[routeIndex].name
-        }) else {
+        guard
+          let tabIndex = tabViews.firstIndex(where: {
+            RNScreensTabCompat.screenKey(from: $0) == path[routeIndex].name
+          })
+        else {
           continue
         }
 
