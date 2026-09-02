@@ -70,7 +70,7 @@ describe('useKeyboardManager', () => {
   });
 
   describe('useLayoutEffect keyboard dismiss on focus loss', () => {
-    test('dismisses keyboard when focused transitions from true to false', () => {
+    test('does not dismiss keyboard when disabled while losing focus', () => {
       const dismissSpy = jest.spyOn(Keyboard, 'dismiss');
 
       const { rerender } = renderHook(
@@ -82,7 +82,7 @@ describe('useKeyboardManager', () => {
 
       rerender({ enabled: false, focused: false });
 
-      expect(dismissSpy).toHaveBeenCalled();
+      expect(dismissSpy).not.toHaveBeenCalled();
 
       dismissSpy.mockRestore();
     });
