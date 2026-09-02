@@ -446,14 +446,13 @@ function AnalyticsListeners({
   };
   screenId: string;
 }) {
-  const isFirstRenderRef = React.useRef(true);
+  const hasEmittedPagePreloadedRef = React.useRef(false);
   const hasBlurredRef = React.useRef(true);
   const routeInfo = useCurrentRouteInfo();
 
   const isFocused = navigation.isFocused();
 
-  if (isFirstRenderRef.current) {
-    isFirstRenderRef.current = false;
+  const emitPagePreloaded = React.useEffectEvent(() => {
     if (routeInfo && !isFocused) {
       unstable_navigationEvents.emit('pagePreloaded', {
         pathname: routeInfo.pathname,
@@ -462,7 +461,14 @@ function AnalyticsListeners({
         screenId,
       });
     }
-  }
+  });
+
+  useEffect(() => {
+    if (!hasEmittedPagePreloadedRef.current) {
+      hasEmittedPagePreloadedRef.current = true;
+      emitPagePreloaded();
+    }
+  }, []);
 
   useEffect(() => {
     if (routeInfo) {
